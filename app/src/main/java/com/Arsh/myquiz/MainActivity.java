@@ -15,9 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     private TextView qns_tv;
@@ -33,12 +38,21 @@ public class MainActivity extends AppCompatActivity {
     private TextView triviaQuestion;
     private CountDownTimer countDownTimer;
 
+    private String Question[] = new String[10];
+    private String OptionA[] = new String[10];
+    private String OptionB[] = new String[10];
+    private String OptionC[] = new String[10];
+    private String OptionD[] = new String[10];
+    private String CorrectOption[] = new String[10] ;
+    private  ArrayList <String> Shuffle = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
+        set_timer(60);
         AndroidNetworking.initialize(getApplicationContext());
         callAPI();
     }
@@ -50,16 +64,63 @@ public class MainActivity extends AppCompatActivity {
                 .addQueryParameter("difficulty", "easy")
                 .addQueryParameter("type", "multiple")
                 .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        // do anything with response
+                    public void onResponse(JSONObject response) {
 
-                        Log.i("test response", String.valueOf(response));
+
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("results");
+
+                            for(int i = 0; i< jsonArray.length(); i++){
+                                JSONObject obj = jsonArray.getJSONObject(i);
+
+                                CorrectOption[i] = obj.getString("correct_answer");
+                                Question[i] = obj.getString("question");
+
+                                JSONArray opt= obj.getJSONArray("incorrect_answers");
+                                //  JSONObject g =opt.getJSONObject(j);
+
+                                    Shuffle.add(0, opt.getString(0));
+                                    Shuffle.add(1, opt.getString(1));
+                                    Shuffle.add(2, opt.getString(2));
+                                    Shuffle.add(3, obj.getString("correct_answer"));
+
+                                Collections.shuffle(Shuffle);
+                                Log.i("Test Shuffle", String.valueOf(Shuffle.get(0)));
+                                Log.i("Test Shuffle", String.valueOf(Shuffle.get(1)));
+                                Log.i("Test Shuffle", String.valueOf(Shuffle.get(2)));
+                                Log.i("Test Shuffle", String.valueOf(Shuffle.get(3)));
+
+                             //   break;
+                                OptionA[i] = Shuffle.get(0);
+                                OptionB[i] = Shuffle.get(1);
+                                OptionC[i] = Shuffle.get(2);
+                                OptionD[i] = Shuffle.get(3);
+
+
+                            }
+
+                            Log.i("Test Question", String.valueOf(Question[0]));
+                            Log.i("Test OptionA", String.valueOf(OptionA[0]));
+                            Log.i("Test OptionB", String.valueOf(OptionB[0]));
+                            Log.i("Test OptionC", String.valueOf(OptionC[0]));
+                            Log.i("Test OptionD", String.valueOf(OptionD[0]));
+                            Log.i("Test Correct Option", String.valueOf(CorrectOption[0]));
+
+
+
+
+
+                        } catch (JSONException e) {
+                            Log.i("Test Error", String.valueOf(e));
+                            e.printStackTrace();
+                        }
                     }
+
                     @Override
-                    public void onError(ANError error) {
-                        Log.i("test error", String.valueOf(error));
+                    public void onError(ANError anError) {
+
                     }
                 });
     }
