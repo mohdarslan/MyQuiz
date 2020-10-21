@@ -51,7 +51,7 @@
         android:elevation="10dp"
 
         app:indicatorColor="@android:color/holo_blue_bright"
-        app:indicatorName="SemiCircleSpinIndicator"
+        app:indicatorName="BallSpinFadeLoaderIndicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
