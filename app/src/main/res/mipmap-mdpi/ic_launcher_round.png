@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <device id="pixel_3_xl" />
+        <device id="pixel_2_xl" />
+        <device id="pixel_xl" />
+        <device id="Nexus 10" />
+        <device id="pixel" />
+        <device id="pixel_3a_xl" />
+        <device id="Nexus 7 2013" />
+        <device id="Nexus 6P" />
+      </config>
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="test" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4082f398-a539-4e16-9057-18cd7a47df14" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../ANDROID/ACADEMY APP/book.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/java/com/dlsoft/academy/activity/Quiz_Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/java/com/dlsoft/academy/adapter/AddLifecycleCallbackListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/drawable/hide_frame.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/drawable/logout_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/drawable/play_fill.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/drawable/share.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/drawable/share_frame.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/drawable/share_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/Android proj Academy/Academy/app/src/main/res/layout/activity_quiz__test.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/java/qatar/shaz/promotions/About_Us.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/java/qatar/shaz/promotions/InterstitialActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/java/qatar/shaz/promotions/MainActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/java/qatar/shaz/promotions/Privacy_Policy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/java/qatar/shaz/promotions/WebActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/java/qatar/shaz/promotions/category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/res/drawable/ansar.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ANDROID/QATAR/QATARI PROMOTIONS/app/src/main/res/drawable/ic_launcher_foreground.xml

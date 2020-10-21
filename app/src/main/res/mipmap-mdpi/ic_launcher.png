@@ -1,0 +1,61 @@
+package com.example.bastinidhiapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.bumptech.glide.Glide;
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
+import com.github.johnpersano.supertoasts.library.utils.PaletteUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class NewRegistration extends AppCompatActivity {
+
+    private TextView  First_Name,LastName ,Gender,FatherName, Address, State, District, VillageName,Mobile, IdProofName,
+            IdProofNo,AddressProofName,AddressProofNo, DOB,Age,EmailId, JoiningDate, ZipCode, AppFormNo,EmpID, MemberID,
+            EmpName,BranchCode, BranchName,LedgerBalance,NFirstName,NLastName,NGender,NFather_Husband,
+            NAddress,NState, NDistrict,NVillageName,NMobile,NDateOfBirth,NEmailId,AccountType,AccountNo,
+            Bank,BankBranch,BankAddress,IFSC,PanNo,PerShare,NoofShare,ShareAmount,MemberSecurity,TotalPayable;
+
+
+    private   Spinner spinner_BranchType, PAYMENT;
+    private   String str_BranchType, str_PAYMENT;
+
+    private Button btn_register;
+    private String Branch[]={"Select Branch", "Ganeshpur"};
+    private String Payment[]={"Select Payment Moode", "Cash", "Cheque", "Online Transaction"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_registration);
+
+        init();
+
+        ArrayAdapter adapterBranchSpinner= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, Branch);
+        adapterBranchSpinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner_BranchType.setAdapter(adapterBranchSpinner);
+
+        ArrayAdapter adapterPAYMENT= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, Payment);
+  

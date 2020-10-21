@@ -1,0 +1,270 @@
+package com.example.bastinidhiapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.bumptech.glide.Glide;
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
+import com.github.johnpersano.supertoasts.library.utils.PaletteUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class NewRegistration extends AppCompatActivity {
+
+    private TextView  First_Name,LastName ,Gender,FatherName, Address, State, District, VillageName,Mobile, IdProofName,
+            IdProofNo,AddressProofName,AddressProofNo, DOB,Age,EmailId, JoiningDate, ZipCode, AppFormNo,EmpID, MemberID,
+            EmpName,BranchCode, BranchName,LedgerBalance,NFirstName,NLastName,NGender,NFather_Husband,
+            NAddress,NState, NDistrict,NVillageName,NMobile,NDateOfBirth,NEmailId,AccountType,AccountNo,
+            Bank,BankBranch,BankAddress,IFSC,PanNo,PerShare,NoofShare,ShareAmount,MemberSecurity,TotalPayable;
+
+
+    private   Spinner spinner_BranchType, PAYMENT;
+    private   String str_BranchType, str_PAYMENT;
+
+    private Button btn_register;
+    private String Branch[]={"Select Branch", "Ganeshpur"};
+    private String Payment[]={"Select Payment Moode", "Cash", "Cheque", "Online Transaction"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_registration);
+
+        init();
+
+        ArrayAdapter adapterBranchSpinner= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, Branch);
+        adapterBranchSpinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner_BranchType.setAdapter(adapterBranchSpinner);
+
+        ArrayAdapter adapterPAYMENT= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, Payment);
+        adapterPAYMENT.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        PAYMENT.setAdapter(adapterPAYMENT);
+
+        spinner_BranchType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                str_BranchType= Branch[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        PAYMENT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                str_PAYMENT=Payment[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress_dialog();
+                Call_API();
+            }
+        });
+
+
+
+
+
+
+
+    }
+
+    private void init() {
+
+        First_Name=findViewById(R.id.First_Name);
+        LastName=findViewById(R.id.LastName);
+        Gender=findViewById(R.id.Gender);
+        FatherName=findViewById(R.id.FatherName);
+        Address=findViewById(R.id.Address);
+        State=findViewById(R.id.State);
+        District=findViewById(R.id.District);
+        VillageName=findViewById(R.id.VillageName);
+        Mobile=findViewById(R.id.Mobile);
+        IdProofName=findViewById(R.id.IdProofName);
+        IdProofNo=findViewById(R.id.IdProofNo);
+        AddressProofName=findViewById(R.id.AddressProofName);
+        AddressProofNo=findViewById(R.id.AddressProofNo);
+        DOB=findViewById(R.id.DOB);
+        Age=findViewById(R.id.Age);
+        EmailId=findViewById(R.id.EmailId);
+        JoiningDate=findViewById(R.id.JoiningDate);
+        ZipCode=findViewById(R.id.ZipCode);
+        AppFormNo=findViewById(R.id.AppFormNo);
+        EmpID=findViewById(R.id.EmpID);
+        MemberID=findViewById(R.id.MemberID);
+        EmpName=findViewById(R.id.EmpName);
+        BranchCode=findViewById(R.id.BranchCode);
+        BranchName=findViewById(R.id.BranchName);
+        LedgerBalance=findViewById(R.id.LedgerBalance);
+        NFirstName=findViewById(R.id.NFirstName);
+        NLastName=findViewById(R.id.NLastName);
+        NGender=findViewById(R.id.NGender);
+        NFather_Husband=findViewById(R.id.NFather_Husband);
+        NAddress=findViewById(R.id.NAddress);
+        NState=findViewById(R.id.NState);
+        NDistrict=findViewById(R.id.NDistrict);
+        NVillageName=findViewById(R.id.NVillageName);
+        NMobile=findViewById(R.id.NMobile);
+        NDateOfBirth=findViewById(R.id.NDateOfBirth);
+        NEmailId=findViewById(R.id.NEmailId);
+        AccountType=findViewById(R.id.AccountType);
+        AccountNo=findViewById(R.id.AccountNo);
+        Bank=findViewById(R.id.Bank);
+        BankBranch=findViewById(R.id.BankBranch);
+        BankAddress=findViewById(R.id.BankAddress);
+        IFSC=findViewById(R.id.IFSC);
+        PanNo=findViewById(R.id.PanNo);
+        PerShare=findViewById(R.id.PerShare);
+        NoofShare=findViewById(R.id.NoofShare);
+        ShareAmount=findViewById(R.id.ShareAmount);
+        MemberSecurity=findViewById(R.id.MemberSecurity);
+        TotalPayable=findViewById(R.id.TotalPayable);
+
+        btn_register=findViewById(R.id.btn_register);
+
+
+        spinner_BranchType=findViewById(R.id.spinner_BranchType);
+        PAYMENT=findViewById(R.id.PAYMENT);
+
+
+
+    }
+
+    private void Call_API() {
+
+        JSONObject jsonObject = new JSONObject();
+
+/*
+,
+            ,, ,,, , , ,, ,
+            ,, ,,,,,,
+            ,, ,,,,,AccountType,,spinner_BranchType, PAYMENT;
+            ,,,,,,,,,;
+ */
+        try {
+
+            jsonObject.put("FirstName", First_Name.getText().toString().trim());
+            jsonObject.put("LastName", LastName.getText().toString().trim());
+            jsonObject.put("FatherName", FatherName.getText().toString().trim() );
+            jsonObject.put("Gender", Gender.getText().toString().trim() );
+            jsonObject.put("Address", Address.getText().toString().trim() );
+            jsonObject.put("State",  State.getText().toString().trim());
+            jsonObject.put("District", District.getText().toString().trim() );
+            jsonObject.put("VillageName", VillageName.getText().toString().trim());
+            jsonObject.put("MobileNo", Mobile.getText().toString().trim());
+            jsonObject.put("IdproofName", IdProofName.getText().toString().trim());
+            jsonObject.put("IdProofNumber", IdProofNo.getText().toString().trim());
+            jsonObject.put("AddressProofName", AddressProofName.getText().toString().trim());
+            jsonObject.put("AddressProofNumber", AddressProofNo.getText().toString().trim());
+            jsonObject.put("DOB", DOB.getText().toString().trim());
+            jsonObject.put("age", Age.getText().toString().trim() );
+            jsonObject.put("ZipCode", ZipCode.getText().toString().trim() );
+            jsonObject.put("Email_Id", EmpID.getText().toString().trim() );
+            jsonObject.put("JoiningDate", JoiningDate.getText().toString().trim());
+            jsonObject.put("BizEmpid",EmpID.getText().toString().trim());
+            jsonObject.put("BizMemberid", MemberID.getText().toString().trim());
+            jsonObject.put("BizEmpName", EmpName.getText().toString().trim());
+            jsonObject.put("BizLedgerBalance",  LedgerBalance.getText().toString().trim());
+            jsonObject.put("BizBranchCode", "null");
+            jsonObject.put("BizBranchName", "null"); //
+            jsonObject.put("BranchName", BranchName.getText().toString().trim());
+            jsonObject.put("BranchCode", BranchCode.getText().toString().trim() );
+            jsonObject.put("BranchLimit", "0");
+            jsonObject.put("BranchAddress", "null");
+            jsonObject.put("appformno", "null");
+            jsonObject.put("EntryUser", "null"); //
+            jsonObject.put("NFirstName", NFirstName.getText().toString().trim() );
+            jsonObject.put("NLastName", NLastName.getText().toString().trim() );
+            jsonObject.put("NBenName", "null");
+            jsonObject.put("NBenRelationship", "null");
+            jsonObject.put("NFatherName", NFather_Husband.getText().toString().trim());
+            jsonObject.put("NGender", NGender.getText().toString().trim());
+            jsonObject.put("NAddress", NAddress.getText().toString().trim() ); //
+            jsonObject.put("NState",NState.getText().toString().trim());
+            jsonObject.put("NDistrict",NDistrict.getText().toString().trim());
+            jsonObject.put("NVillageName", NVillageName.getText().toString().trim());
+            jsonObject.put("NMobileNo", NMobile.getText().toString().trim());
+            jsonObject.put("NDOB", NDateOfBirth.getText().toString().trim() );
+            jsonObject.put("NAge", "null");
+            jsonObject.put("NEmailId", NEmailId.getText().toString().trim()); //
+            jsonObject.put("AccountName", "null");
+            jsonObject.put("AccountNo", "null");
+            jsonObject.put("Bank", "null");
+            jsonObject.put("BankBranch", "null");
+            jsonObject.put("BankAddress", "null");
+            jsonObject.put("IFSC", "null");
+            jsonObject.put("PanNo", "null");
+            jsonObject.put("MemberType", "null");
+            jsonObject.put("PerShare", "10");
+            jsonObject.put("NoofShare", "1");
+            jsonObject.put("ShareAmount", "10");
+            jsonObject.put("MemberSecurity", "100");
+            jsonObject.put("TotalPayable", "110");
+            jsonObject.put("PaymentMode", str_PAYMENT);
+            jsonObject.put("SBankName", "null");
+            jsonObject.put("SBankNameID", "null");
+            jsonObject.put("SBranchName", "null");
+            jsonObject.put("SChequeNo", "null");
+            jsonObject.put("SChequeDate", "null");
+            jsonObject.put("AccountHead", "null");
+            jsonObject.put("AccountHeadID", "null");
+            jsonObject.put("TransactionId", "null");
+
+
+
+
+
+
+            Log.i("test JSON OBJ SENT", jsonObject.toString());
+//            jsonObject.put("{","null")
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        AndroidNetworking.post("http://api.bastinidhi.in/Associate/AssNewMemberReg")
+                .addHeaders("Authorization", "No Auth")
+                .addJSONObjectBody(jsonObject)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                                     @Override
+                                     public void onResponse(JSONObject response) {
+                                         Log.i("test RESPONSE", response.toString());
+
+                                         try {
+                                        
