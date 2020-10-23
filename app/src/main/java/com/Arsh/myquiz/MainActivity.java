@@ -265,8 +265,6 @@ public class MainActivity extends AppCompatActivity {
         int selectedRadioButtonID = radioGroup.getCheckedRadioButtonId();
         if(countDownTimer != null){
             countDownTimer.cancel();
-//            animation1.cancel();
-            animation1 = null;
         }
 
 //        radio_button_1.setClickable(true);
@@ -296,8 +294,6 @@ public class MainActivity extends AppCompatActivity {
         int selectedRadioButtonID = radioGroup.getCheckedRadioButtonId();
         if(countDownTimer != null){
             countDownTimer.cancel();
-//            animation1.cancel();
-            animation1 = null;
         }
 
 
@@ -360,8 +356,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
             public void onFinish(){
-
+                isAttempted[index] = true;
                 timer.setText("FINISH!!");
+                timer.clearAnimation();
                 timer.setTextSize(30);
                 timer.setTextColor(Color.RED);
 
