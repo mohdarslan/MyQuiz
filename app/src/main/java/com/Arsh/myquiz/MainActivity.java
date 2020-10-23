@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private String CorrectOption[] = new String[10] ;
     private  ArrayList <String> Shuffle = new ArrayList<String>();
     private int Scores[] = new int[10];
+    private boolean isAttempted[] = new boolean[10];
     int index = 0;
 
     @Override
@@ -62,12 +63,42 @@ public class MainActivity extends AppCompatActivity {
         AndroidNetworking.initialize(getApplicationContext());
         callAPI();
 
+
+
+
+
         NEXT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(index <10){
                     view.clearAnimation();
+                    if(radio_button_1.isChecked() || radio_button_2.isChecked() || radio_button_3.isChecked() || radio_button_4.isChecked()){
+                        isAttempted[index] = true;
+                        Log.i("index",String.valueOf(index));
+                        Log.i("isAttempted[index] ", String.valueOf(isAttempted[index]));
+                    }
                     click_NEXT_button(index);
+                    if(index<9){
+                        index++;
+                        setValues(index);
+                        if(isAttempted[index]){
+                            set_timer(0);
+                        }else{
+                            set_timer(60);
+                        }
+                    }
+//                    if(index == 8){
+//                        setValues(index);
+//                        if(isAttempted[index]){
+//                            set_timer(0);
+//                        }else{
+//                            set_timer(60);
+//                        }
+//                    }
+                    radio_button_1.setClickable(!isAttempted[index]);
+                    radio_button_2.setClickable(!isAttempted[index]);
+                    radio_button_3.setClickable(!isAttempted[index]);
+                    radio_button_4.setClickable(!isAttempted[index]);
                 }else{
                     return;
                 }
@@ -79,7 +110,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(index >= 0){
+                    if(radio_button_1.isChecked() || radio_button_2.isChecked() || radio_button_3.isChecked() || radio_button_4.isChecked()){
+                        isAttempted[index] = true;
+                        Log.i("index",String.valueOf(index));
+                        Log.i("isAttempted[index] ", String.valueOf(isAttempted[index]));
+                    }
                     click_PREV_button(index);
+                    if(index > 0){
+                        index--;
+                        setValues(index);
+                        if(isAttempted[index]){
+                            set_timer(0);
+                        }else{
+                            set_timer(60);
+                        }
+                    }
+                    radio_button_1.setClickable(!isAttempted[index]);
+                    radio_button_2.setClickable(!isAttempted[index]);
+                    radio_button_3.setClickable(!isAttempted[index]);
+                    radio_button_4.setClickable(!isAttempted[index]);
                 }else{
                     return;
                 }
@@ -99,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
         int correct_answers = 0;
         int wrong_answers = 0;
         int unattempted_questions = 0;
+
+        click_NEXT_button(index);
 
         for(int i=0;i<10;i++){
             if(Scores[i]==0){
@@ -123,7 +174,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private Future<Long> setValues(int i) {
+
+    private void setValues(int i) {
+        radioGroup.clearCheck();
         if(i<10 && i >=0){
             NEXT.setClickable(true);
             PREV.setClickable(true);
@@ -140,8 +193,6 @@ public class MainActivity extends AppCompatActivity {
             PREV.setClickable(false);
         }
 
-
-        return null;
     }
 
 
@@ -218,12 +269,13 @@ public class MainActivity extends AppCompatActivity {
             animation1 = null;
         }
 
+//        radio_button_1.setClickable(true);
+//        radio_button_2.setClickable(true);
+//        radio_button_3.setClickable(true);
+//        radio_button_4.setClickable(true);
 
-        radio_button_1.setClickable(true);
-        radio_button_2.setClickable(true);
-        radio_button_3.setClickable(true);
-        radio_button_4.setClickable(true);
-        set_timer(60);
+
+
 
         if(selectedRadioButtonID != -1){
             selectedRadioButton = findViewById(selectedRadioButtonID);
@@ -237,13 +289,6 @@ public class MainActivity extends AppCompatActivity {
                 Scores[i] = -1;
             }
         }
-        if(index<9){
-            index++;
-            setValues(index);
-        }
-        if(index == 9){
-            setValues(index);
-        }
 
     }
 
@@ -256,11 +301,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        radio_button_1.setClickable(true);
-        radio_button_2.setClickable(true);
-        radio_button_3.setClickable(true);
-        radio_button_4.setClickable(true);
-        set_timer(60);
+//        radio_button_1.setClickable(true);
+//        radio_button_2.setClickable(true);
+//        radio_button_3.setClickable(true);
+//        radio_button_4.setClickable(true);
 
         if(selectedRadioButtonID != -1){
             selectedRadioButton = findViewById(selectedRadioButtonID);
@@ -272,10 +316,7 @@ public class MainActivity extends AppCompatActivity {
                 Scores[i] = -1;
             }
         }
-        if(index > 0){
-            index--;
-            setValues(index);
-        }
+
 
     }
 
@@ -291,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
         PREV= (Button) findViewById(R.id.PREV);
         timer=(Button)findViewById(R.id.timer);
         EVALUATE=(Button)findViewById(R.id.EVALUATE);
-        Future<Long> futuretask = setValues(index);
+        setValues(index);
         set_timer(60);
     }
 
